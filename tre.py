@@ -1,4 +1,5 @@
 import random, math
+# класс корабль. Принимает значения координат длины корабля и сторону в которую он направлен (Вверх или вправо)
 class Ship:
     def __init__(self, x,y, width, size):
         self.x = x
@@ -6,16 +7,16 @@ class Ship:
         self.width= width
 
         self.size= size
-
+# Класс доски board - список для отрисовки доски, lose - счетчик сколько палуб убито, всего 11 палуб у кораблей botshipbot - специальный список, чтобы бот стрелял без повторений
 class Board:
     def __init__(self):
         self.ships=[1,1,1,1,2,2,3]
         self.board=[['O' for j in range(6)] for i in range(6)]
         self.hit = 'X'
         self.miss = 'T'
-        self.lose = 5
+        self.lose = 0
         self.botshipshot = list(map(int,[str(i)+str(j) for j in range(1,7) for i in range(1,7)]))
-
+# Отрисовка доски
     def draw(self):
         i=0
         print('  1 2 3 4 5 6')
@@ -26,7 +27,7 @@ class Board:
                 print(elem, end=' ')
             print()
 
-
+# Добавление корабля на доску
     def add(self, ship):
         if ship.size == 'Вниз':
             for i in range(ship.width):
@@ -34,7 +35,7 @@ class Board:
         elif ship.size == 'Вправо':
             for i in range(ship.width):
                 self.board[ship.y-1][ship.x-1+i] = 'K'
-
+# Выстрел в доску экземляра класса
     def shot(self):
         remuv = True
         while remuv:
@@ -50,6 +51,7 @@ class Board:
                 print ('В это место вы уже стреляли')
                 remuv = True
 
+    # Выстрел в доску экземляра класса для бота
     def botshot(self):
         n = random.choice(self.botshipshot)
         x = n // 10
@@ -63,6 +65,7 @@ class Board:
         else:
             print ('В это место вы уже стреляли')
 
+    # Расположение кораблей для человека
     def bacik(self):
         i = 0
         for ship in self.ships:
@@ -78,6 +81,7 @@ class Board:
             self.ships[i] = Ship(x,y,width,size)
             i += 1
 
+    # Расположение кораблей для бота
     def bacikbot(self):
             self.ships[0] = Ship(1,1,1,'Вниз')
             self.ships[1] = Ship(1, 6, 1, 'Вниз')
@@ -90,7 +94,7 @@ class Board:
 
 
 
-
+ # Создание классов и сам порядок ходов в игре
 Player = Board()
 
 II=Board()
