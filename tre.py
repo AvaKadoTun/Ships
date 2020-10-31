@@ -13,7 +13,7 @@ class Board:
         self.board=[['O' for j in range(6)] for i in range(6)]
         self.hit = 'X'
         self.miss = 'T'
-        self.lose = 0
+        self.lose = 5
         self.botshipshot = list(map(int,[str(i)+str(j) for j in range(1,7) for i in range(1,7)]))
 
     def draw(self):
@@ -52,12 +52,12 @@ class Board:
 
     def botshot(self):
         n = random.choice(self.botshipshot)
-        y = n // 10
-        x = (n // 10) // 10
+        x = n // 10
+        y = n % 10
         self.botshipshot.remove(n)
         if self.board[y-1][x-1] == 'K':
             self.board[y - 1][x - 1] = self.hit
-            self.lose+=1
+            self.lose = self.lose +1
         elif self.board[y-1][x-1] == 'O':
             self.board[y - 1][x - 1] = self.miss
         else:
@@ -104,7 +104,7 @@ for ship in Player.ships:
 Player.draw()
 II.draw()
 
-while II.lose or Player.lose < 11:
+while (II.lose < 11) or (Player.lose < 11):
     II.shot()
     Player.botshot()
     Player.draw()
